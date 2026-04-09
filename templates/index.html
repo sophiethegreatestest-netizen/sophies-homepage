@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Briefing</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-dark: #2d6a4f;
+            --green-mid: #52b788;
+            --green-light: #d8f3dc;
+            --pink: #f4a7b9;
+            --pink-light: #fde8ee;
+            --grey-dark: #3d3d3d;
+            --grey-mid: #8a8a8a;
+            --grey-light: #f0f0f0;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--grey-light);
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(82, 183, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(244, 167, 185, 0.2) 0%, transparent 50%);
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(45, 106, 79, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+            width: 560px;
+            max-width: 95vw;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+            padding: 2rem 2.5rem 1.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: 60px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(244, 167, 185, 0.2);
+        }
+
+        .card-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header .subtitle {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 0.3rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .weather-section {
+            padding: 2.5rem 2.5rem 2rem;
+            border-bottom: 1px solid var(--grey-light);
+        }
+
+        .weather-city {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            color: var(--grey-mid);
+            font-style: italic;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .weather-city::before {
+            content: '📍';
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5rem;
+        }
+
+        .temp-display {
+            background: linear-gradient(135deg, var(--green-light), var(--pink-light));
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            min-width: 160px;
+        }
+
+        .temp-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 4rem;
+            color: var(--green-dark);
+            line-height: 1;
+        }
+
+        .temp-unit {
+            font-size: 1.5rem;
+            color: var(--green-mid);
+            font-weight: 300;
+        }
+
+        .temp-label {
+            font-size: 0.75rem;
+            color: var(--grey-mid);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.4rem;
+        }
+
+        .weather-details {
+            flex: 1;
+        }
+
+        .condition-badge {
+            display: inline-block;
+            background: var(--pink-light);
+            color: var(--grey-dark);
+            border: 1px solid var(--pink);
+            border-radius: 20px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: capitalize;
+            margin-bottom: 0.8rem;
+        }
+
+        .weather-note {
+            font-size: 0.82rem;
+            color: var(--grey-mid);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            padding: 1.2rem 2.5rem;
+            background: var(--grey-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-text {
+            font-size: 0.78rem;
+            color: var(--grey-mid);
+        }
+
+        .footer-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green-mid);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h1>Daily Briefing</h1>
+            <p class="subtitle">Your morning at a glance</p>
+        </div>
+
+        <div class="weather-section">
+            <div class="weather-city">{{ city }}</div>
+            <div class="weather-main">
+                <div class="temp-display">
+                    <div class="temp-value">{{ temp }}<span class="temp-unit">°F</span></div>
+                    <div class="temp-label">Temperature</div>
+                </div>
+                <div class="weather-details">
+                    <div class="condition-badge">{{ description }}</div>
+                    <p class="weather-note">Current conditions in your area. Stay prepared for the day ahead.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <span class="footer-text">Updated just now</span>
+            <div class="footer-dot"></div>
+        </div>
+    </div>
+</body>
+</html>
