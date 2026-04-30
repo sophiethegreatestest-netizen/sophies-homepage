@@ -14,11 +14,15 @@ def get_location_from_ip():
     try:
         ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
-        # If running locally, let ipinfo auto-detect
+        # X-Forwarded-For can be a comma-separated list, take the first (real) IP
+        if ip:
+            ip = ip.split(',')[0].strip()
+
+        # If still local, clear it so ipinfo auto-detects
         if ip == "127.0.0.1":
             ip = ""
 
-        response = requests.get(f"https://ipinfo.io/{ip}/json")
+        response = requests.get(f"https://ipinfo.io/{ip}/json", timeout=5)
         data = response.json()
 
         city = data.get("city", "New York")
@@ -83,5 +87,5 @@ def home():
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)
