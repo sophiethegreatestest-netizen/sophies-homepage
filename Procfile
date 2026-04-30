@@ -1,1 +1,1 @@
-Procfi
+web: gunicorn app:app
