@@ -1,5 +1,7 @@
 import requests
+import os
 from flask import Flask, render_template, request
+import time
 
 app = Flask(__name__)
 
@@ -47,6 +49,7 @@ def get_weather(city):
         return response.json()
 
     return None
+    
 
 
 def get_news(city, country):
@@ -75,12 +78,14 @@ def home():
     weather_data = get_weather(city)
     news_articles = get_news(city, country)
 
+    # inside home():
     context = {
         "city": city,
         "country": country,
         "temp": round(weather_data['main']['temp'], 1) if weather_data else "N/A",
         "description": weather_data['weather'][0]['description'] if weather_data else "No data",
         "articles": news_articles,
+        "updated_at": int(time.time()),  # Unix timestamp in seconds
     }
 
     return render_template('index.html', **context)
