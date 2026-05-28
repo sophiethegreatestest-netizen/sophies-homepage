@@ -1,7 +1,7 @@
 import requests
 import os
-from flask import Flask, render_template, request
 import time
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -29,12 +29,15 @@ def get_location_from_ip():
 
         city = data.get("city", "New York")
         country = data.get("country", "US")
-        return city, country
+        lat, lon = None, None
+        if data.get("loc"):
+            lat, lon = data["loc"].split(",")
+        return city, country, lat, lon
 
     except:
         pass
 
-    return "New York", "US"  # fallback
+    return "New York", "US", None, None  # fallback
 
 
 # -----------------------------
@@ -49,9 +52,50 @@ def get_weather(city):
         return response.json()
 
     return None
-    
 
 
+# -----------------------------
+# Get severe weather alerts
+# (requires lat/lon via OpenWeather One Call API)
+# -----------------------------
+def get_severe_weather(lat, lon):
+    if not lat or not lon:
+        return []
+
+    url = (
+        f"https://api.openweathermap.org/data/3.0/onecall"
+        f"?lat={lat}&lon={lon}&exclude=minutely,hourly,daily,current"
+        f"&appid={WEATHER_API_KEY}"
+    )
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        alerts = data.get("alerts", [])
+        return [{"event": a.get("event", "Alert"), "description": a.get("description", "")} for a in alerts]
+
+    return []
+
+
+# -----------------------------
+# Get daily high/low temps
+# -----------------------------
+def get_daily_temps(city):
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={WEATHER_API_KEY}&units=imperial&cnt=8"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        temps = [item["main"]["temp"] for item in data.get("list", [])]
+        if temps:
+            return round(max(temps), 1), round(min(temps), 1)
+
+    return None, None
+
+
+# -----------------------------
+# Get news from NewsAPI
+# -----------------------------
 def get_news(city, country):
     country_code = country.lower()
 
@@ -69,23 +113,29 @@ def get_news(city, country):
         return [a for a in articles if a.get("title") and a.get("url")]
 
     return []
+
+
 # -----------------------------
 # Home Route
 # -----------------------------
 @app.route('/')
 def home():
-    city, country = get_location_from_ip()
+    city, country, lat, lon = get_location_from_ip()
     weather_data = get_weather(city)
     news_articles = get_news(city, country)
+    severe_alerts = get_severe_weather(lat, lon)
+    temp_high, temp_low = get_daily_temps(city)
 
-    # inside home():
     context = {
         "city": city,
         "country": country,
         "temp": round(weather_data['main']['temp'], 1) if weather_data else "N/A",
         "description": weather_data['weather'][0]['description'] if weather_data else "No data",
         "articles": news_articles,
-        "updated_at": int(time.time()),  # Unix timestamp in seconds
+        "severe_alerts": severe_alerts,
+        "temp_high": temp_high if temp_high else "N/A",
+        "temp_low": temp_low if temp_low else "N/A",
+        "updated_at": int(time.time()),
     }
 
     return render_template('index.html', **context)
