@@ -125,12 +125,37 @@
         }
         .temp-value {
             font-family: 'DM Serif Display', serif;
-            font-size: 7rem; color: #007a7a; line-height: 1;
+            font-size: 5rem; color: #007a7a; line-height: 1;
         }
-        .temp-unit { font-size: 2.5rem; color: var(--green-mid); font-weight: 300; }
+        .temp-unit { font-size: 2rem; color: var(--green-mid); font-weight: 300; }
         .temp-label {
             font-size: 0.75rem; color: var(--grey-mid);
             text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.2rem;
+        }
+        .temp-highlow {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 0.4rem;
+        }
+        .temp-highlow-item {
+            text-align: center;
+        }
+        .temp-highlow-label {
+            font-size: 0.68rem;
+            color: var(--grey-mid);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .temp-highlow-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: #007a7a;
+            line-height: 1.2;
+        }
+        .temp-highlow-unit {
+            font-size: 0.9rem;
+            color: var(--green-mid);
         }
         .condition-badge {
             display: inline-block;
@@ -535,6 +560,16 @@
                         <div>
                             <div class="temp-value">{{ temp }}<span class="temp-unit">°F</span></div>
                             <div class="temp-label">Temperature</div>
+                            <div class="temp-highlow">
+                                <div class="temp-highlow-item">
+                                    <div class="temp-highlow-label">High</div>
+                                    <div class="temp-highlow-value">{{ temp_high }}<span class="temp-highlow-unit">°</span></div>
+                                </div>
+                                <div class="temp-highlow-item">
+                                    <div class="temp-highlow-label">Low</div>
+                                    <div class="temp-highlow-value">{{ temp_low }}<span class="temp-highlow-unit">°</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="condition-badge">{{ description }}</div>
                         <p class="weather-note">Current conditions in your area. Stay prepared for the day ahead.</p>
