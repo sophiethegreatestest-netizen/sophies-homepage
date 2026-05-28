@@ -12,49 +12,20 @@ NEWS_API_KEY = '94fecc9221144ad48b4a2725b3e8e317'
 # -----------------------------
 # Get city from user's IP
 # -----------------------------
-# def get_location_from_ip():
-#     try:
-#         ip = request.headers.get('X-Forwarded-For', request.remote_addr)
-
-#         # X-Forwarded-For can be a comma-separated list, take the first (real) IP
-#         if ip:
-#             ip = ip.split(',')[0].strip()
-
-#         # If still local, clear it so ipinfo auto-detects
-#         if ip == "127.0.0.1":
-#             ip = ""
-
-#         response = requests.get(f"https://ipinfo.io/{ip}/json", timeout=5)
-#         data = response.json()
-
-#         city = data.get("city", "New York")
-#         country = data.get("country", "US")
-#         lat, lon = None, None
-#         if data.get("loc"):
-#             lat, lon = data["loc"].split(",")
-#         return city, country, lat, lon
-
-#     except:
-#         pass
-
-#     return "New York", "US", None, None  # fallback
-
 def get_location_from_ip():
     try:
         ip = request.headers.get('X-Forwarded-For', request.remote_addr)
-        print(f"Raw X-Forwarded-For: {request.headers.get('X-Forwarded-For')}")
-        print(f"Remote addr: {request.remote_addr}")
-        print(f"IP being used: {ip}")
 
+        # X-Forwarded-For can be a comma-separated list, take the first (real) IP
         if ip:
             ip = ip.split(',')[0].strip()
 
+        # If still local, clear it so ipinfo auto-detects
         if ip == "127.0.0.1":
             ip = ""
 
         response = requests.get(f"https://ipinfo.io/{ip}/json", timeout=5)
         data = response.json()
-        print(f"ipinfo response: {data}")
 
         city = data.get("city", "New York")
         country = data.get("country", "US")
@@ -63,11 +34,11 @@ def get_location_from_ip():
             lat, lon = data["loc"].split(",")
         return city, country, lat, lon
 
-    except Exception as e:
-        print(f"Location error: {e}")
+    except:
         pass
 
-    return "New York", "US", None, None
+    return "New York", "US", None, None  # fallback
+
 
 # -----------------------------
 # Get weather from OpenWeather
