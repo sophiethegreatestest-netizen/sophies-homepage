@@ -157,7 +157,34 @@
             font-size: 0.9rem;
             color: var(--green-mid);
         }
-        .condition-badge {
+        /* Unit toggle */
+        .unit-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 3px;
+            gap: 2px;
+            position: relative;
+            z-index: 1;
+            margin-top: 0.6rem;
+            width: fit-content;
+        }
+        .unit-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.25rem 0.8rem;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .unit-btn.active {
+            background: rgba(255,255,255,0.9);
+            color: #007a7a;
+        }
             display: inline-block;
             background: var(--pink-light); color: var(--grey-dark);
             border: 1px solid var(--pink); border-radius: 20px;
@@ -559,21 +586,25 @@
                 <div class="card-header">
                     <h1>Daily Briefing</h1>
                     <p class="subtitle" id="desktop-greeting">Good morning</p>
+                    <div class="unit-toggle">
+                        <button class="unit-btn active" id="btn-f" onclick="setUnit('F')">°F</button>
+                        <button class="unit-btn" id="btn-c" onclick="setUnit('C')">°C</button>
+                    </div>
                 </div>
                 <div class="weather-body">
                     <div class="weather-city">{{ city }}</div>
                     <div class="temp-display">
                         <div>
-                            <div class="temp-value">{{ temp }}<span class="temp-unit">°F</span></div>
+                            <div class="temp-value" id="desktop-temp">{{ temp }}<span class="temp-unit" id="desktop-temp-unit">°F</span></div>
                             <div class="temp-label">Temperature</div>
                             <div class="temp-highlow">
                                 <div class="temp-highlow-item">
                                     <div class="temp-highlow-label">High</div>
-                                    <div class="temp-highlow-value">{{ temp_high }}<span class="temp-highlow-unit">°</span></div>
+                                    <div class="temp-highlow-value" id="desktop-high">{{ temp_high }}<span class="temp-highlow-unit">°</span></div>
                                 </div>
                                 <div class="temp-highlow-item">
                                     <div class="temp-highlow-label">Low</div>
-                                    <div class="temp-highlow-value">{{ temp_low }}<span class="temp-highlow-unit">°</span></div>
+                                    <div class="temp-highlow-value" id="desktop-low">{{ temp_low }}<span class="temp-highlow-unit">°</span></div>
                                 </div>
                             </div>
                         </div>
@@ -815,6 +846,38 @@
         function showMoreNews() {
             document.querySelectorAll('[data-extra="true"]').forEach(el => el.style.display = "block");
             document.getElementById("mobile-more-btn").style.display = "none";
+        }
+
+        // °F / °C toggle
+        const tempF = {{ temp }};
+        const highF = {{ temp_high if temp_high != 'N/A' else 'null' }};
+        const lowF  = {{ temp_low if temp_low != 'N/A' else 'null' }};
+
+        function toC(f) { return f !== null ? Math.round((f - 32) * 5 / 9 * 10) / 10 : 'N/A'; }
+
+        function setUnit(unit) {
+            const tempEl  = document.getElementById('desktop-temp');
+            const unitEl  = document.getElementById('desktop-temp-unit');
+            const highEl  = document.getElementById('desktop-high');
+            const lowEl   = document.getElementById('desktop-low');
+
+            if (!tempEl) return;
+
+            if (unit === 'F') {
+                tempEl.childNodes[0].nodeValue = tempF;
+                unitEl.textContent = '°F';
+                if (highEl) highEl.childNodes[0].nodeValue = highF !== null ? highF : 'N/A';
+                if (lowEl)  lowEl.childNodes[0].nodeValue  = lowF  !== null ? lowF  : 'N/A';
+                document.getElementById('btn-f').classList.add('active');
+                document.getElementById('btn-c').classList.remove('active');
+            } else {
+                tempEl.childNodes[0].nodeValue = toC(tempF);
+                unitEl.textContent = '°C';
+                if (highEl) highEl.childNodes[0].nodeValue = toC(highF);
+                if (lowEl)  lowEl.childNodes[0].nodeValue  = toC(lowF);
+                document.getElementById('btn-f').classList.remove('active');
+                document.getElementById('btn-c').classList.add('active');
+            }
         }
     </script>
 
