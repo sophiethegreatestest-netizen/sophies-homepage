@@ -197,6 +197,36 @@
             font-size: 0.8rem; color: var(--grey-mid);
             font-weight: 300; line-height: 1.5; margin-top: 0.3rem;
         }
+        .forecast-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+            justify-content: center;
+        }
+        .forecast-item {
+            flex: 1;
+            background: var(--white);
+            border: 1px solid var(--green-light);
+            border-radius: 12px;
+            padding: 0.6rem 0.5rem;
+            text-align: center;
+        }
+        .forecast-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--grey-mid);
+            margin-bottom: 0.3rem;
+        }
+        .forecast-temp {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            color: #007a7a;
+        }
+        .forecast-unit {
+            font-size: 0.75rem;
+            color: var(--green-mid);
+        }
         .card-footer {
             padding: 0.9rem 2rem; background: var(--grey-light);
             display: flex; justify-content: space-between; align-items: center;
@@ -637,6 +667,21 @@
                         </div>
                         <div class="condition-badge">{{ description }}</div>
                         <p class="weather-note">Current conditions in your area. Stay prepared for the day ahead.</p>
+                        {% if forecast %}
+                        <div class="forecast-row">
+                            {% for day in forecast %}
+                            <div class="forecast-item">
+                                <div class="forecast-label" {% if loop.index == 3 %}id="forecast-day3-label" data-date="{{ day.date }}"{% endif %}>
+                                    {% if loop.index == 1 %}Today
+                                    {% elif loop.index == 2 %}Tomorrow
+                                    {% else %}&nbsp;
+                                    {% endif %}
+                                </div>
+                                <div class="forecast-temp forecast-item-temp" data-f="{{ day.avg }}">{{ day.avg }}<span class="forecast-unit">°F</span></div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-footer">
@@ -881,6 +926,15 @@
             document.getElementById("mobile-more-btn").style.display = "none";
         }
 
+        // Set day-after-tomorrow label
+        const day3El = document.getElementById('forecast-day3-label');
+        if (day3El) {
+            const dateStr = day3El.getAttribute('data-date');
+            const d = new Date(dateStr + 'T12:00:00');
+            const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            day3El.textContent = dayNames[d.getDay()];
+        }
+
         // °F / °C toggle
         const tempF = {{ temp }};
         const highF = {{ temp_high if temp_high != 'N/A' else 'null' }};
@@ -914,6 +968,15 @@
             if (mUnitEl) mUnitEl.textContent = unitLabel;
             if (mHighEl) mHighEl.childNodes[0].nodeValue = displayHigh;
             if (mLowEl)  mLowEl.childNodes[0].nodeValue  = displayLow;
+
+            // Forecast items
+            document.querySelectorAll('.forecast-item-temp').forEach(el => {
+                const fVal = parseFloat(el.getAttribute('data-f'));
+                const converted = unit === 'F' ? fVal : toC(fVal);
+                const unitSpan = el.querySelector('.forecast-unit');
+                el.childNodes[0].nodeValue = converted;
+                if (unitSpan) unitSpan.textContent = unit === 'F' ? '°F' : '°C';
+            });
 
             // Toggle button states — desktop
             const btnF = document.getElementById('btn-f');

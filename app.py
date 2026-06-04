@@ -78,19 +78,38 @@ def get_severe_weather(lat, lon):
 
 
 # -----------------------------
-# Get daily high/low temps
+# Get daily high/low temps + 3-day forecast
 # -----------------------------
 def get_daily_temps(city):
-    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={WEATHER_API_KEY}&units=imperial&cnt=8"
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={WEATHER_API_KEY}&units=imperial&cnt=24"
     response = requests.get(url)
 
     if response.status_code == 200:
         data = response.json()
-        temps = [item["main"]["temp"] for item in data.get("list", [])]
-        if temps:
-            return round(max(temps), 1), round(min(temps), 1)
+        items = data.get("list", [])
 
-    return None, None
+        # High/low from first 8 entries (~today)
+        today_temps = [item["main"]["temp"] for item in items[:8]]
+        temp_high = round(max(today_temps), 1) if today_temps else None
+        temp_low  = round(min(today_temps), 1) if today_temps else None
+
+        # Group by day to get avg temp per day
+        from collections import defaultdict
+        from datetime import datetime
+        day_temps = defaultdict(list)
+        for item in items:
+            date = datetime.fromtimestamp(item["dt"]).strftime("%Y-%m-%d")
+            day_temps[date].append(item["main"]["temp"])
+
+        sorted_days = sorted(day_temps.keys())
+        forecast = []
+        for day in sorted_days[:3]:
+            avg = round(sum(day_temps[day]) / len(day_temps[day]), 1)
+            forecast.append({"date": day, "avg": avg})
+
+        return temp_high, temp_low, forecast
+
+    return None, None, []
 
 
 # -----------------------------
@@ -124,7 +143,7 @@ def home():
     weather_data = get_weather(city)
     news_articles = get_news(city, country)
     severe_alerts = get_severe_weather(lat, lon)
-    temp_high, temp_low = get_daily_temps(city)
+    temp_high, temp_low, forecast = get_daily_temps(city)
 
     context = {
         "city": city,
@@ -135,6 +154,7 @@ def home():
         "severe_alerts": severe_alerts,
         "temp_high": temp_high if temp_high else "N/A",
         "temp_low": temp_low if temp_low else "N/A",
+        "forecast": forecast,
         "updated_at": int(time.time()),
     }
 
