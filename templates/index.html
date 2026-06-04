@@ -424,6 +424,32 @@
                 text-align: center;
             }
 
+            .mobile-unit-toggle {
+                display: flex;
+                background: #009e9e;
+                border-radius: 20px;
+                padding: 3px;
+                gap: 2px;
+            }
+
+            .mobile-unit-btn {
+                background: transparent;
+                border: none;
+                color: rgba(255,255,255,0.6);
+                font-family: 'DM Sans', sans-serif;
+                font-size: 0.75rem;
+                font-weight: 500;
+                padding: 0.2rem 0.7rem;
+                border-radius: 16px;
+                cursor: pointer;
+                transition: background 0.2s, color 0.2s;
+            }
+
+            .mobile-unit-btn.active {
+                background: rgba(255,255,255,0.9);
+                color: #007a7a;
+            }
+
             .mobile-briefing-greeting {
                 font-family: 'DM Serif Display', serif;
                 font-size: 1.1rem;
@@ -750,9 +776,15 @@
 
                 <!-- Daily Briefing mini card -->
                 <div class="mobile-briefing-card">
-                    <div class="mobile-briefing-greeting" id="mobile-greeting">Good Morning</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+                        <div class="mobile-briefing-greeting" id="mobile-greeting">Good Morning</div>
+                        <div class="mobile-unit-toggle">
+                            <button class="mobile-unit-btn active" id="mobile-btn-f" onclick="setUnit('F')">°F</button>
+                            <button class="mobile-unit-btn" id="mobile-btn-c" onclick="setUnit('C')">°C</button>
+                        </div>
+                    </div>
                     <div class="mobile-briefing-label">It is</div>
-                    <div class="mobile-briefing-temp">{{ temp }}<span class="mobile-briefing-unit">°F</span></div>
+                    <div class="mobile-briefing-temp" id="mobile-temp">{{ temp }}<span class="mobile-briefing-unit" id="mobile-temp-unit">°F</span></div>
                     <div class="mobile-briefing-location">📍 {{ city }}</div>
                 </div>
 
@@ -761,10 +793,10 @@
             <!-- HIGH / LOW CARD -->
             <div class="mobile-highlow-card">
                 <div class="mobile-highlow-label">Temp High:</div>
-                <div class="mobile-highlow-temp">{{ temp_high }}<span class="mobile-highlow-unit">°</span></div>
+                <div class="mobile-highlow-temp" id="mobile-high">{{ temp_high }}<span class="mobile-highlow-unit">°</span></div>
                 <hr class="mobile-highlow-divider">
                 <div class="mobile-highlow-label">Temp Low:</div>
-                <div class="mobile-highlow-temp">{{ temp_low }}<span class="mobile-highlow-unit">°</span></div>
+                <div class="mobile-highlow-temp" id="mobile-low">{{ temp_low }}<span class="mobile-highlow-unit">°</span></div>
             </div>
 
             <!-- QUICK APPS -->
@@ -857,28 +889,43 @@
         function toC(f) { return f !== null ? Math.round((f - 32) * 5 / 9 * 10) / 10 : 'N/A'; }
 
         function setUnit(unit) {
-            const tempEl  = document.getElementById('desktop-temp');
-            const unitEl  = document.getElementById('desktop-temp-unit');
-            const highEl  = document.getElementById('desktop-high');
-            const lowEl   = document.getElementById('desktop-low');
+            const tempEl      = document.getElementById('desktop-temp');
+            const unitEl      = document.getElementById('desktop-temp-unit');
+            const highEl      = document.getElementById('desktop-high');
+            const lowEl       = document.getElementById('desktop-low');
+            const mTempEl     = document.getElementById('mobile-temp');
+            const mUnitEl     = document.getElementById('mobile-temp-unit');
+            const mHighEl     = document.getElementById('mobile-high');
+            const mLowEl      = document.getElementById('mobile-low');
 
-            if (!tempEl) return;
+            const displayTemp = unit === 'F' ? tempF : toC(tempF);
+            const displayHigh = unit === 'F' ? (highF !== null ? highF : 'N/A') : toC(highF);
+            const displayLow  = unit === 'F' ? (lowF  !== null ? lowF  : 'N/A') : toC(lowF);
+            const unitLabel   = unit === 'F' ? '°F' : '°C';
 
-            if (unit === 'F') {
-                tempEl.childNodes[0].nodeValue = tempF;
-                unitEl.textContent = '°F';
-                if (highEl) highEl.childNodes[0].nodeValue = highF !== null ? highF : 'N/A';
-                if (lowEl)  lowEl.childNodes[0].nodeValue  = lowF  !== null ? lowF  : 'N/A';
-                document.getElementById('btn-f').classList.add('active');
-                document.getElementById('btn-c').classList.remove('active');
-            } else {
-                tempEl.childNodes[0].nodeValue = toC(tempF);
-                unitEl.textContent = '°C';
-                if (highEl) highEl.childNodes[0].nodeValue = toC(highF);
-                if (lowEl)  lowEl.childNodes[0].nodeValue  = toC(lowF);
-                document.getElementById('btn-f').classList.remove('active');
-                document.getElementById('btn-c').classList.add('active');
-            }
+            // Desktop
+            if (tempEl) tempEl.childNodes[0].nodeValue = displayTemp;
+            if (unitEl) unitEl.textContent = unitLabel;
+            if (highEl) highEl.childNodes[0].nodeValue = displayHigh;
+            if (lowEl)  lowEl.childNodes[0].nodeValue  = displayLow;
+
+            // Mobile
+            if (mTempEl) mTempEl.childNodes[0].nodeValue = displayTemp;
+            if (mUnitEl) mUnitEl.textContent = unitLabel;
+            if (mHighEl) mHighEl.childNodes[0].nodeValue = displayHigh;
+            if (mLowEl)  mLowEl.childNodes[0].nodeValue  = displayLow;
+
+            // Toggle button states — desktop
+            const btnF = document.getElementById('btn-f');
+            const btnC = document.getElementById('btn-c');
+            if (btnF) btnF.classList.toggle('active', unit === 'F');
+            if (btnC) btnC.classList.toggle('active', unit === 'C');
+
+            // Toggle button states — mobile
+            const mBtnF = document.getElementById('mobile-btn-f');
+            const mBtnC = document.getElementById('mobile-btn-c');
+            if (mBtnF) mBtnF.classList.toggle('active', unit === 'F');
+            if (mBtnC) mBtnC.classList.toggle('active', unit === 'C');
         }
     </script>
 
