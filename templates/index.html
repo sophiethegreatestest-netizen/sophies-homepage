@@ -39,17 +39,7 @@
         /* Hide mobile-only elements on desktop */
         .mobile-only { display: none; }
 
-        /* Search bar */
-        .search-bar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: var(--grey-light);
-            padding: 1.2rem 0 0.8rem;
-            margin: 0 -2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
+        /* Search bar form styles */
         .search-form {
             display: flex;
             align-items: center;
@@ -316,10 +306,234 @@
         .site-icon img { width: 100%; height: 100%; object-fit: cover; }
         .site-name { font-size: 0.72rem; color: var(--grey-mid); text-align: center; }
 
+        /* ── Theme menu button (hamburger) ── */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--grey-light);
+            padding: 1.2rem 0 0.8rem;
+            margin: 0 -2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        .search-bar .search-form { flex: 1; }
 
-        /* ============================================================
-           MOBILE STYLES (applied at 768px and below)
-        ============================================================ */
+        .theme-menu-btn {
+            background: var(--white);
+            border: none;
+            border-radius: 10px;
+            width: 44px; height: 44px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 5px; cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+            transition: box-shadow 0.2s;
+            position: relative;
+        }
+        .theme-menu-btn:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
+        .theme-menu-btn span {
+            display: block;
+            width: 18px; height: 2px;
+            background: var(--grey-dark);
+            border-radius: 2px;
+        }
+
+        /* Theme dropdown */
+        .theme-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 2rem;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            padding: 1rem;
+            width: 220px;
+            z-index: 200;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .theme-menu.open { display: flex; }
+        .theme-menu-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--grey-mid);
+            margin-bottom: 0.3rem;
+            padding: 0 0.3rem;
+        }
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: transparent;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 0.5rem 0.6rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            color: var(--grey-dark);
+            text-align: left;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .theme-option:hover { background: var(--grey-light); }
+        .theme-option.active { border-color: var(--green-mid); }
+        .theme-preview {
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+        }
+        .light-preview  { background: linear-gradient(135deg, #0a7a6e 50%, #efefef 50%); }
+        .dark-preview   { background: linear-gradient(135deg, #1a1a2e 50%, #16213e 50%); }
+        .nature-preview { background: linear-gradient(135deg, #2d6a4f 50%, #74b9d4 50%); }
+        .space-preview  { background: linear-gradient(135deg, #0d0d1a 50%, #9b59b6 50%); }
+
+        /* ── THEME: Dark ── */
+        body.theme-dark {
+            background-color: #0d0d1a;
+            background-image: none;
+        }
+        body.theme-dark .search-bar { background-color: #0d0d1a; }
+        body.theme-dark .search-form { background: #1a1a2e; box-shadow: none; }
+        body.theme-dark .search-input { color: #e0e0e0; }
+        body.theme-dark .search-input::placeholder { color: #555; }
+        body.theme-dark .theme-menu-btn { background: #1a1a2e; box-shadow: none; }
+        body.theme-dark .theme-menu-btn span { background: #e0e0e0; }
+        body.theme-dark .theme-menu { background: #1a1a2e; }
+        body.theme-dark .theme-menu-title { color: #666; }
+        body.theme-dark .theme-option { color: #e0e0e0; }
+        body.theme-dark .theme-option:hover { background: #22223a; }
+        body.theme-dark .card { background: #1a1a2e; }
+        body.theme-dark .weather-body { background: #1a1a2e; }
+        body.theme-dark .card-footer { background: #12122a; }
+        body.theme-dark .footer-text { color: #666; }
+        body.theme-dark .temp-display { background: linear-gradient(135deg, #1e1e3a, #22223a); }
+        body.theme-dark .temp-value { color: #0da688; }
+        body.theme-dark .temp-highlow-value { color: #0da688; }
+        body.theme-dark .forecast-item { background: #22223a; border-color: #333; }
+        body.theme-dark .forecast-temp { color: #0da688; }
+        body.theme-dark .forecast-label { color: #666; }
+        body.theme-dark .condition-badge { background: #22223a; border-color: #444; color: #e0e0e0; }
+        body.theme-dark .weather-note { color: #666; }
+        body.theme-dark .weather-city { color: #666; }
+        body.theme-dark .news-card .news-header { border-bottom-color: #333; }
+        body.theme-dark .news-card .news-header h2 { color: #0da688; }
+        body.theme-dark .news-location-badge { background: #22223a; border-color: #333; color: #666; }
+        body.theme-dark .news-item { border-bottom-color: #22223a; }
+        body.theme-dark .news-item:hover { background: #22223a; }
+        body.theme-dark .news-title { color: #e0e0e0; }
+        body.theme-dark .news-item:hover .news-title { color: #0da688; }
+        body.theme-dark .news-desc { color: #666; }
+        body.theme-dark .news-source { color: #0da688; }
+        body.theme-dark .popular-sites { background: #1a1a2e; }
+        body.theme-dark .popular-sites h3 { color: #666; }
+        body.theme-dark .site-name { color: #666; }
+        body.theme-dark .no-news { color: #666; }
+
+        /* ── THEME: Nature ── */
+        body.theme-nature {
+            background-color: #1a3a2a;
+            background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        body.theme-nature::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 35, 20, 0.55);
+            z-index: 0;
+            pointer-events: none;
+        }
+        body.theme-nature > * { position: relative; z-index: 1; }
+        body.theme-nature .search-bar { background-color: transparent; }
+        body.theme-nature .search-form { background: rgba(255,255,255,0.85); }
+        body.theme-nature .theme-menu-btn { background: rgba(255,255,255,0.85); }
+        body.theme-nature .theme-menu { background: rgba(255,255,255,0.95); }
+        body.theme-nature .card { background: rgba(255,255,255,0.82); backdrop-filter: blur(8px); }
+        body.theme-nature .card-footer { background: rgba(230,245,235,0.7); }
+        body.theme-nature .temp-display { background: linear-gradient(135deg, rgba(180,220,190,0.6), rgba(150,210,230,0.6)); }
+        body.theme-nature .temp-value { color: #1a4a2a; }
+        body.theme-nature .temp-highlow-value { color: #1a4a2a; }
+        body.theme-nature .forecast-item { background: rgba(255,255,255,0.7); border-color: rgba(100,180,120,0.4); }
+        body.theme-nature .forecast-temp { color: #1a4a2a; }
+        body.theme-nature .weather-card .card-header { background: linear-gradient(135deg, #1a4a2a, #2d8a50); }
+        body.theme-nature .news-card .news-header h2 { color: #1a4a2a; }
+        body.theme-nature .news-card .news-header { border-bottom-color: #a8d5b0; }
+        body.theme-nature .news-source { color: #2d8a50; }
+        body.theme-nature .news-item:hover .news-title { color: #1a4a2a; }
+        body.theme-nature .popular-sites { background: rgba(255,255,255,0.82); backdrop-filter: blur(8px); }
+        body.theme-nature .unit-btn.active { color: #1a4a2a; }
+        body.theme-nature .unit-toggle { background: rgba(255,255,255,0.2); }
+        body.theme-nature .footer-dot { background: #2d8a50; }
+
+        /* ── THEME: Space ── */
+        body.theme-space {
+            background-color: #0d0d1a;
+            background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=1920&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        body.theme-space::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 20, 0.65);
+            z-index: 0;
+            pointer-events: none;
+        }
+        body.theme-space > * { position: relative; z-index: 1; }
+        body.theme-space .search-bar { background-color: transparent; }
+        body.theme-space .search-form { background: rgba(255,255,255,0.08); box-shadow: none; }
+        body.theme-space .search-input { color: #e0e0e0; }
+        body.theme-space .search-input::placeholder { color: #555; }
+        body.theme-space .theme-menu-btn { background: rgba(255,255,255,0.08); box-shadow: none; }
+        body.theme-space .theme-menu-btn span { background: #e0e0e0; }
+        body.theme-space .theme-menu { background: #0d0d2a; }
+        body.theme-space .theme-menu-title { color: #555; }
+        body.theme-space .theme-option { color: #e0e0e0; }
+        body.theme-space .theme-option:hover { background: #1a1a3a; }
+        body.theme-space .card { background: rgba(255,255,255,0.07); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        body.theme-space .card-footer { background: rgba(255,255,255,0.04); }
+        body.theme-space .footer-text { color: #555; }
+        body.theme-space .temp-display { background: linear-gradient(135deg, rgba(50,20,80,0.6), rgba(20,10,50,0.6)); }
+        body.theme-space .temp-value { color: #c084fc; }
+        body.theme-space .temp-unit { color: #a855f7; }
+        body.theme-space .temp-highlow-value { color: #c084fc; }
+        body.theme-space .temp-highlow-unit { color: #a855f7; }
+        body.theme-space .forecast-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+        body.theme-space .forecast-temp { color: #c084fc; }
+        body.theme-space .forecast-unit { color: #a855f7; }
+        body.theme-space .forecast-label { color: #555; }
+        body.theme-space .condition-badge { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.3); color: #e0e0e0; }
+        body.theme-space .weather-note { color: #555; }
+        body.theme-space .weather-city { color: #888; }
+        body.theme-space .weather-card .card-header { background: linear-gradient(135deg, #1a0a2e, #2d1050); }
+        body.theme-space .unit-toggle { background: rgba(255,255,255,0.1); }
+        body.theme-space .unit-btn { color: rgba(255,255,255,0.5); }
+        body.theme-space .unit-btn.active { background: rgba(255,255,255,0.15); color: #c084fc; }
+        body.theme-space .news-card .news-header { border-bottom-color: rgba(168,85,247,0.3); }
+        body.theme-space .news-card .news-header h2 { color: #c084fc; }
+        body.theme-space .news-location-badge { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: #888; }
+        body.theme-space .news-item { border-bottom-color: rgba(255,255,255,0.06); }
+        body.theme-space .news-item:hover { background: rgba(255,255,255,0.05); }
+        body.theme-space .news-title { color: #e0e0e0; }
+        body.theme-space .news-item:hover .news-title { color: #c084fc; }
+        body.theme-space .news-desc { color: #555; }
+        body.theme-space .news-source { color: #a855f7; }
+        body.theme-space .popular-sites { background: rgba(255,255,255,0.07); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        body.theme-space .popular-sites h3 { color: #555; }
+        body.theme-space .site-name { color: #888; }
+        body.theme-space .footer-dot { background: #a855f7; }
         @media (max-width: 768px) {
 
             /* Hide all desktop elements */
@@ -642,6 +856,28 @@
                 </svg>
                 <input class="search-input" type="text" name="q" placeholder="Search Google...">
             </form>
+            <button class="theme-menu-btn" onclick="toggleThemeMenu()" title="Change theme">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="theme-menu" id="theme-menu">
+                <div class="theme-menu-title">Choose Theme</div>
+                <button class="theme-option active" id="theme-light" onclick="setTheme('light')">
+                    <div class="theme-preview light-preview"></div>
+                    <span>Light Mode</span>
+                </button>
+                <button class="theme-option" id="theme-dark" onclick="setTheme('dark')">
+                    <div class="theme-preview dark-preview"></div>
+                    <span>Dark Mode</span>
+                </button>
+                <button class="theme-option" id="theme-nature" onclick="setTheme('nature')">
+                    <div class="theme-preview nature-preview"></div>
+                    <span>Nature</span>
+                </button>
+                <button class="theme-option" id="theme-space" onclick="setTheme('space')">
+                    <div class="theme-preview space-preview"></div>
+                    <span>Space</span>
+                </button>
+            </div>
         </div>
 
         <!-- Main row -->
@@ -999,6 +1235,34 @@
             if (mBtnF) mBtnF.classList.toggle('active', unit === 'F');
             if (mBtnC) mBtnC.classList.toggle('active', unit === 'C');
         }
+
+        // ── Theme menu ──
+        function toggleThemeMenu() {
+            document.getElementById('theme-menu').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            const btn = document.querySelector('.theme-menu-btn');
+            const menu = document.getElementById('theme-menu');
+            if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('open');
+            }
+        });
+
+        function setTheme(theme) {
+            document.body.classList.remove('theme-dark', 'theme-nature', 'theme-space');
+            if (theme !== 'light') document.body.classList.add('theme-' + theme);
+            ['light','dark','nature','space'].forEach(t => {
+                const el = document.getElementById('theme-' + t);
+                if (el) el.classList.toggle('active', t === theme);
+            });
+            localStorage.setItem('theme', theme);
+            document.getElementById('theme-menu').classList.remove('open');
+        }
+
+        // Restore saved theme on load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) setTheme(savedTheme);
     </script>
 
 </body>
