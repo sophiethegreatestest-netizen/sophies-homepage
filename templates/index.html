@@ -30,11 +30,10 @@
             background-image:
                 radial-gradient(ellipse at 20% 20%, rgba(10, 124, 92, 0.1) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 80%, rgba(15, 168, 118, 0.08) 0%, transparent 50%);
-            padding: 0 4rem 2rem;
+            padding: 0 2rem 2rem;
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
-            align-items: center;
         }
 
         /* Hide mobile-only elements on desktop */
@@ -44,7 +43,8 @@
         .search-form {
             display: flex;
             align-items: center;
-            background: var(--white);
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(10px);
             border-radius: 12px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             padding: 0.75rem 1.2rem;
@@ -66,12 +66,11 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.2rem;
             flex: 1;
-            max-width: 1100px;
-            width: 100%;
-            align-self: center;
         }
         .card {
-            background: var(--white);
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             box-shadow: 0 2px 16px rgba(45, 106, 79, 0.08);
             overflow: hidden;
@@ -120,7 +119,8 @@
         }
         .weather-city::before { content: '📍'; font-style: normal; }
         .temp-display {
-            background: linear-gradient(135deg, var(--green-light), var(--pink-light));
+            background: linear-gradient(135deg, rgba(178,232,221,0.7), rgba(224,247,243,0.7));
+            backdrop-filter: blur(8px);
             border-radius: 16px; padding: 2.5rem 2rem;
             text-align: center; flex: 1;
             display: flex; flex-direction: column;
@@ -208,7 +208,8 @@
         }
         .forecast-item {
             flex: 1;
-            background: var(--white);
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--green-light);
             border-radius: 12px;
             padding: 0.8rem 1rem;
@@ -281,11 +282,12 @@
 
         /* Popular sites */
         .popular-sites {
-            background: var(--white); border-radius: 20px;
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
             box-shadow: 0 2px 16px rgba(45, 106, 79, 0.08);
             padding: 1.2rem 2.5rem;
-            width: 100%;
-            max-width: 1100px;
         }
         .popular-sites h3 {
             font-family: 'DM Serif Display', serif;
@@ -320,15 +322,15 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background-color: var(--grey-light);
+            background-color: transparent;
             padding: 1.2rem 0 0.8rem;
             width: 100%;
-            max-width: 1100px;
         }
         .search-bar .search-form { flex: 1; }
 
         .theme-menu-btn {
-            background: var(--white);
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(10px);
             border: none;
             border-radius: 10px;
             width: 44px; height: 44px;
