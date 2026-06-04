@@ -30,10 +30,11 @@
             background-image:
                 radial-gradient(ellipse at 20% 20%, rgba(10, 124, 92, 0.1) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 80%, rgba(15, 168, 118, 0.08) 0%, transparent 50%);
-            padding: 0 2rem 2rem;
+            padding: 0 4rem 2rem;
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
+            align-items: center;
         }
 
         /* Hide mobile-only elements on desktop */
@@ -65,6 +66,9 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.2rem;
             flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            align-self: center;
         }
         .card {
             background: var(--white);
@@ -280,6 +284,8 @@
             background: var(--white); border-radius: 20px;
             box-shadow: 0 2px 16px rgba(45, 106, 79, 0.08);
             padding: 1.2rem 2.5rem;
+            width: 100%;
+            max-width: 1100px;
         }
         .popular-sites h3 {
             font-family: 'DM Serif Display', serif;
@@ -316,9 +322,8 @@
             z-index: 100;
             background-color: var(--grey-light);
             padding: 1.2rem 0 0.8rem;
-            margin: 0 -2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
+            width: 100%;
+            max-width: 1100px;
         }
         .search-bar .search-form { flex: 1; }
 
