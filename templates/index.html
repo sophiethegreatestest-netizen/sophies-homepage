@@ -43,8 +43,8 @@
         .search-form {
             display: flex;
             align-items: center;
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.45);
+            backdrop-filter: blur(16px);
             border-radius: 12px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             padding: 0.75rem 1.2rem;
@@ -68,11 +68,11 @@
             flex: 1;
         }
         .card {
-            background: rgba(255,255,255,0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-radius: 20px;
-            box-shadow: 0 2px 16px rgba(45, 106, 79, 0.08);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -119,7 +119,7 @@
         }
         .weather-city::before { content: '📍'; font-style: normal; }
         .temp-display {
-            background: linear-gradient(135deg, rgba(178,232,221,0.7), rgba(224,247,243,0.7));
+            background: linear-gradient(135deg, rgba(178,232,221,0.4), rgba(224,247,243,0.4));
             backdrop-filter: blur(8px);
             border-radius: 16px; padding: 2.5rem 2rem;
             text-align: center; flex: 1;
@@ -208,9 +208,9 @@
         }
         .forecast-item {
             flex: 1;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.35);
             backdrop-filter: blur(8px);
-            border: 1px solid var(--green-light);
+            border: 1px solid rgba(178,232,221,0.5);
             border-radius: 12px;
             padding: 0.8rem 1rem;
             text-align: center;
@@ -282,11 +282,11 @@
 
         /* Popular sites */
         .popular-sites {
-            background: rgba(255,255,255,0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-radius: 20px;
-            box-shadow: 0 2px 16px rgba(45, 106, 79, 0.08);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
             padding: 1.2rem 2.5rem;
         }
         .popular-sites h3 {
@@ -404,45 +404,55 @@
 
         /* ── THEME: Dark ── */
         body.theme-dark {
-            background-color: #0d0d1a;
+            background-color: #1c1c1c;
             background-image: none;
         }
-        body.theme-dark .search-bar { background-color: #0d0d1a; }
-        body.theme-dark .search-form { background: #1a1a2e; box-shadow: none; }
-        body.theme-dark .search-input { color: #e0e0e0; }
+        body.theme-dark .search-bar { background-color: transparent; }
+        body.theme-dark .search-form { background: rgba(40,40,40,0.85); box-shadow: none; border: 1px solid rgba(255,255,255,0.07); }
+        body.theme-dark .search-input { color: #d4d4d4; }
         body.theme-dark .search-input::placeholder { color: #555; }
-        body.theme-dark .theme-menu-btn { background: #1a1a2e; box-shadow: none; }
-        body.theme-dark .theme-menu-btn span { background: #e0e0e0; }
-        body.theme-dark .theme-menu { background: #1a1a2e; }
-        body.theme-dark .theme-menu-title { color: #666; }
-        body.theme-dark .theme-option { color: #e0e0e0; }
-        body.theme-dark .theme-option:hover { background: #22223a; }
-        body.theme-dark .card { background: #1a1a2e; }
-        body.theme-dark .weather-body { background: #1a1a2e; }
-        body.theme-dark .card-footer { background: #12122a; }
-        body.theme-dark .footer-text { color: #666; }
-        body.theme-dark .temp-display { background: linear-gradient(135deg, #1e1e3a, #22223a); }
-        body.theme-dark .temp-value { color: #0da688; }
-        body.theme-dark .temp-highlow-value { color: #0da688; }
-        body.theme-dark .forecast-item { background: #22223a; border-color: #333; }
-        body.theme-dark .forecast-temp { color: #0da688; }
-        body.theme-dark .forecast-label { color: #666; }
-        body.theme-dark .condition-badge { background: #22223a; border-color: #444; color: #e0e0e0; }
-        body.theme-dark .weather-note { color: #666; }
+        body.theme-dark .theme-menu-btn { background: rgba(40,40,40,0.85); box-shadow: none; border: 1px solid rgba(255,255,255,0.07); }
+        body.theme-dark .theme-menu-btn span { background: #d4d4d4; }
+        body.theme-dark .theme-menu { background: #2a2a2a; border: 1px solid rgba(255,255,255,0.07); }
+        body.theme-dark .theme-menu-title { color: #555; }
+        body.theme-dark .theme-option { color: #d4d4d4; }
+        body.theme-dark .theme-option:hover { background: #333; }
+        body.theme-dark .card { background: rgba(32,32,32,0.82); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); box-shadow: none; }
+        body.theme-dark .weather-card .card-header { background: linear-gradient(135deg, #2a2a2a, #383838); }
+        body.theme-dark .card-footer { background: rgba(20,20,20,0.6); }
+        body.theme-dark .footer-text { color: #555; }
+        body.theme-dark .footer-dot { background: #555; }
+        body.theme-dark .temp-display { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); }
+        body.theme-dark .temp-value { color: #d4d4d4; }
+        body.theme-dark .temp-unit { color: #888; }
+        body.theme-dark .temp-label { color: #555; }
+        body.theme-dark .temp-highlow-value { color: #d4d4d4; }
+        body.theme-dark .temp-highlow-unit { color: #888; }
+        body.theme-dark .temp-highlow-label { color: #555; }
+        body.theme-dark .forecast-item { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.07); }
+        body.theme-dark .forecast-temp { color: #d4d4d4; }
+        body.theme-dark .forecast-unit { color: #888; }
+        body.theme-dark .forecast-label { color: #555; }
+        body.theme-dark .condition-badge { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.1); color: #d4d4d4; }
+        body.theme-dark .weather-note { color: #555; }
         body.theme-dark .weather-city { color: #666; }
-        body.theme-dark .news-card .news-header { border-bottom-color: #333; }
-        body.theme-dark .news-card .news-header h2 { color: #0da688; }
-        body.theme-dark .news-location-badge { background: #22223a; border-color: #333; color: #666; }
-        body.theme-dark .news-item { border-bottom-color: #22223a; }
-        body.theme-dark .news-item:hover { background: #22223a; }
-        body.theme-dark .news-title { color: #e0e0e0; }
-        body.theme-dark .news-item:hover .news-title { color: #0da688; }
-        body.theme-dark .news-desc { color: #666; }
-        body.theme-dark .news-source { color: #0da688; }
-        body.theme-dark .popular-sites { background: #1a1a2e; }
-        body.theme-dark .popular-sites h3 { color: #666; }
+        body.theme-dark .news-card .news-header { border-bottom-color: rgba(255,255,255,0.08); }
+        body.theme-dark .news-card .news-header h2 { color: #d4d4d4; }
+        body.theme-dark .news-location-badge { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.08); color: #666; }
+        body.theme-dark .news-item { border-bottom-color: rgba(255,255,255,0.05); }
+        body.theme-dark .news-item:hover { background: rgba(255,255,255,0.04); }
+        body.theme-dark .news-title { color: #d4d4d4; }
+        body.theme-dark .news-item:hover .news-title { color: #ffffff; }
+        body.theme-dark .news-desc { color: #555; }
+        body.theme-dark .news-source { color: #888; }
+        body.theme-dark .unit-toggle { background: rgba(255,255,255,0.1); }
+        body.theme-dark .unit-btn { color: rgba(255,255,255,0.4); }
+        body.theme-dark .unit-btn.active { background: rgba(255,255,255,0.15); color: #d4d4d4; }
+        body.theme-dark .popular-sites { background: rgba(32,32,32,0.82); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); box-shadow: none; }
+        body.theme-dark .popular-sites h3 { color: #555; }
         body.theme-dark .site-name { color: #666; }
-        body.theme-dark .no-news { color: #666; }
+        body.theme-dark .no-news { color: #555; }
+        body.theme-dark .dark-preview { background: linear-gradient(135deg, #2a2a2a 50%, #1c1c1c 50%); }
 
         /* ── THEME: Nature ── */
         body.theme-nature {
@@ -456,7 +466,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: rgba(15, 35, 20, 0.55);
+            background: rgba(15, 35, 20, 0.3);
             z-index: 0;
             pointer-events: none;
         }
@@ -494,7 +504,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: rgba(5, 5, 20, 0.65);
+            background: rgba(5, 5, 20, 0.4);
             z-index: 0;
             pointer-events: none;
         }
